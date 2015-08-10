@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>map reduce</title>
+<script type="text/javascript">
+	var arr = [1,2,3,4,5,6,7,8,9];
+	console.dir('----map-------');
+	function pow(x){
+		return x *x;
+	}
+	result = arr.map(pow);
+	console.debug(result);
+	var result = arr.map(String);
+	console.debug(result);
+	
+	console.dir('----reduce-------');
+	result = arr.reduce(function(x,y){
+		return x + y;
+	})
+	console.dir(result);
+	
+	
+	result = arr.reduce(function(x, y){
+		return x * 10 +y;
+	});
+	console.dir(result);
+
+	function string2int(s) {
+		return s.split('').map(function(x){
+			return x.charCodeAt(0) - '0'.charCodeAt(0);
+		}).reduce(function(x,y){
+			return x *10 + y
+		})
+	}
+
+	// 测试:
+	if (string2int('0') === 0 && string2int('12345') === 12345 && string2int('12300') === 12300) {
+	    if (string2int.toString().indexOf('parseInt') !== -1) {
+	        console.dir('请勿使用parseInt()!');
+	    } else if (string2int.toString().indexOf('Number') !== -1) {
+	        console.dir('请勿使用Number()!');
+	    } else {
+	        console.dir('测试通过!');
+	    }
+	}
+	else {
+	    console.dir('测试失败!');
+	}
+		
+	function normalize(arr){
+		return arr.map(function(e){
+			return e.split('').reverse().reduce(function(x,y){
+				return  y.toUpperCase()+ x.toLowerCase() ;
+			})
+		})
+	}
+	console.debug(normalize(['adam', 'LISA', 'barT']))
+	// 测试:
+	if (normalize(['adam', 'LISA', 'barT']).toString() === ['Adam', 'Lisa', 'Bart'].toString()) {
+	    console.debug('测试通过!');
+	}
+	else {
+	    console.debug('测试失败!');
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>

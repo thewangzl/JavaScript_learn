@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Closure</title>
+<script type="text/javascript">
+var arr = [1,2,3,4,5];
+
+function sum(arr){
+	return arr.reduce(function(x, y){
+		return x + y;
+	})
+}
+
+function lazy_sum(arr){
+	var sum = function(){
+		return arr.reduce(function(x, y){
+			return x + y;
+		})
+	}
+	return sum;
+}
+
+var f = lazy_sum(arr);
+console.dir(f);
+console.dir(f());
+
+var f1 = lazy_sum(arr);
+var f2 = lazy_sum(arr);
+console.dir(f1 === f2);	//false 
+
+//error
+/* function count(){
+	var arr = [];
+	for(var i = 1; i<=3;i++){
+		arr.push(function(){
+			return i * i; 
+		})
+	}
+	return arr;
+}
+var results = count();
+var f1 = results[0];
+var f2 = results[1];
+var f3 = results[2];
+console.dir(f1());
+console.dir(f2());
+console.dir(f3()); */
+
+
+//correct
+function count(){
+	var arr = [];
+	for(var i = 1; i<=3;i++){
+		arr.push((function(n){
+			return function(){
+				return n * n;
+			}
+		})(i));	//匿名函数并立即执行    (function (x) { return x * x }) (3);
+	}
+	return arr;
+	
+}
+var results = count();
+var f1 = results[0];
+var f2 = results[1];
+var f3 = results[2];
+console.dir(f1());
+console.dir(f2());
+console.dir(f3());
+
+
+function create_counter(initial){
+	var x = initial || 0;
+	return {
+		inc : function (){
+			x += 1;
+			return x;
+		}
+	}
+}
+
+var c1 = create_counter();
+console.dir(c1.inc()); // 1
+console.dir(c1.inc()); // 2
+console.dir(c1.inc()); // 3
+
+var c2 = create_counter(10);
+console.dir(c2.inc()); // 11
+console.dir(c2.inc()); // 12
+console.dir(c2.inc()); // 13
+
+function make_pow(n){
+	return function(x){
+		return Math.pow(x,n);
+	}
+}
+
+var pow2 = make_pow(2);
+var pow3 = make_pow(3);
+console.dir(pow2(5));
+console.dir(pow3(7))
+
+console.dir('脑洞大开...');
+
+//定义数字0
+var zero = function(f){
+	return function(x){
+		return x;
+	}
+}
+
+//定义数字1
+var one = function(f){
+	return function(x){
+		return f(x);
+	}
+}
+
+//定义加法:
+function add(n,m){
+	return function(f){
+		return function(x){
+			return m(f)(n(f)(x));
+		}
+	}
+}
+
+var two = add(one,one);
+var three = add(one,two);
+var four = add(two,two);
+var five = add(three,two);
+
+//计算
+(three(function(){
+	console.dir('print 3 times');
+}))();
+
+(five(function(){
+	console.dir('print 5 times');
+}))();
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

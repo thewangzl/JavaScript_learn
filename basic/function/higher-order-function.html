@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Higher-order function</title>
+<script type="text/javascript">
+function add(x, y, f) {
+    return f(x) + f(y);
+}
+
+var result = add(5, -6, Math.abs);
+console.dir(result);
+</script>
+</head>
+<body>
+
+</body>
+</html>

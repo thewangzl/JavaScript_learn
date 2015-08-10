@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>function</title>
+<script type="text/javascript">
+function getAge(){
+	var y = new Date().getFullYear();
+	return y - this.birth;
+}
+
+var xiaoming = {
+		name : "小明",
+		birth : 1988,
+		age : getAge
+}
+console.dir(xiaoming.age());
+console.dir(getAge());
+console.dir(getAge.apply(xiaoming));
+
+var xiaoxiao = {
+		name : '小小',
+		birth : 1989,
+		age : function(){
+			var that = this;
+			function getAgeFromBirth(){
+				return new Date().getFullYear() - that.birth;
+			}
+			return getAgeFromBirth();
+		}
+}
+console.dir(xiaoxiao.age());
+</script>
+</head>
+<body>
+
+</body>
+</html>
